@@ -6,6 +6,7 @@ export default component$(() => {
 
   const pokemonId = useSignal(1); // para uso primitivos, booleans, strings, numbers
   const showBackImage = useSignal(false);
+  const isVisible = useSignal(false);
   
   // function serialized for lazy load
   const changePokemonById = $(( value: number ) => {
@@ -18,12 +19,13 @@ export default component$(() => {
      <span class="text-2xl">Buscador simple</span>
      <span class="text-9xl">{ pokemonId }</span>
      
-     <PokemonImage id={pokemonId.value} size={200} backImage={ showBackImage.value }/>
+     <PokemonImage id={pokemonId.value} size={200} backImage={ showBackImage.value } isVisible={ isVisible.value }/>
 
      <div class="mt-2">
         <button onClick$={ () => changePokemonById(-1) } class="btn btn-primary mr-2">Anterior</button>
         <button onClick$={ () => changePokemonById(+1) } class="btn btn-primary mr-2">Siguiente</button>
-        <button onClick$={ () => showBackImage.value = !showBackImage.value } class="btn btn-primary">Voltear</button>
+        <button onClick$={ () => showBackImage.value = !showBackImage.value } class="btn btn-primary mr-2">Voltear</button>
+        <button onClick$={ () => isVisible.value = !isVisible.value } class="btn btn-primary">Revelar</button>
      </div>
     </>
   );

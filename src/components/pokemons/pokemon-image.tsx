@@ -4,9 +4,10 @@ interface Props {
     id?:        number;
     size?:      number;
     backImage:  boolean;
+    isVisible?: boolean;
 }
 
-export const PokemonImage = component$(( {id, size = 300, backImage = false}:Props ) => {
+export const PokemonImage = component$(( {id, size = 300, backImage = false, isVisible = true}:Props ) => {
     
     const imageLoaded = useSignal(false);
 
@@ -23,7 +24,11 @@ export const PokemonImage = component$(( {id, size = 300, backImage = false}:Pro
             <img src={ backImage ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png` : 
             `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png` } 
             alt="Pokemon" style={{ width:`${size}` }} onLoad$={ () => imageLoaded.value = true }
-            class={{ 'hidden' : !imageLoaded.value }}/>
+            class={[
+                { 'hidden' : !imageLoaded.value,
+                    'brightness-0': isVisible
+                }, 'transition-all'
+                ]}/>
         </div>
     )
 })
