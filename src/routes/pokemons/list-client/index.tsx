@@ -1,4 +1,4 @@
-import { component$, useStore, useVisibleTask$ } from '@builder.io/qwik';
+import { component$, useStore, useTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import type { IPokemonPageState } from '~/data/interfaces/PokemonPageState';
@@ -11,11 +11,11 @@ export default component$(() => {
     pokemons: []
   });
 
-  // visible solo para el cliente
-  useVisibleTask$( async({ track }) => {
-    track(() => pokemonsState.currentPage);
-    const pokemons = await getSmallPokemons( pokemonsState.currentPage * 10 );
-    pokemonsState.pokemons = [ ...pokemonsState.pokemons, ...pokemons ];
+  // visible in client and server
+  useTask$( async({ track }) =>  {
+      track(() => pokemonsState.currentPage);
+      const pokemons = await getSmallPokemons( pokemonsState.currentPage * 10 );
+      pokemonsState.pokemons = [ ...pokemonsState.pokemons, ...pokemons ];
   });
 
   return(
