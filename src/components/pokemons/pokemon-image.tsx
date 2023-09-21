@@ -1,9 +1,9 @@
 import { useSignal, component$, useTask$ } from "@builder.io/qwik";
 
 interface Props {
-    id?:        number;
+    id?:        number | string;
     size?:      number;
-    backImage:  boolean;
+    backImage?:  boolean;
     isVisible?: boolean;
 }
 
@@ -26,7 +26,7 @@ export const PokemonImage = component$(( {id, size = 300, backImage = false, isV
             alt="Pokemon" style={{ width:`${size}` }} onLoad$={ () => imageLoaded.value = true }
             class={[
                 { 'hidden' : !imageLoaded.value,
-                    'brightness-0': isVisible
+                    'brightness-0': !isVisible
                 }, 'transition-all'
                 ]}/>
         </div>

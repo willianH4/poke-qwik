@@ -8,7 +8,7 @@ export default component$(() => {
   const nav = useNavigate();
   const pokemonId = useSignal(1); // para uso primitivos, booleans, strings, numbers
   const showBackImage = useSignal(false);
-  const isVisible = useSignal(false);
+  const isVisible = useSignal(true);
   
   // function serialized for lazy load
   const changePokemonById = $(( value: number ) => {
