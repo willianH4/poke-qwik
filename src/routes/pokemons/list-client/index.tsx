@@ -1,16 +1,12 @@
-import { $, component$, useOnDocument, useStore, useTask$ } from '@builder.io/qwik';
+import { $, component$, useContext, useOnDocument, useTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
-import type { IPokemonPageState } from '~/data/interfaces/PokemonPageState';
+import { PokemonListContext } from '~/context';
 import { getSmallPokemons } from '~/helpers/getSmallPokemons';
 
 export default component$(() => {
 
-  const pokemonsState = useStore<IPokemonPageState>({
-    currentPage: 0,
-    isLoading: false,
-    pokemons: []
-  });
+  const pokemonsState = useContext(PokemonListContext);
 
   // visible in client and server
   useTask$( async({ track }) =>  {
