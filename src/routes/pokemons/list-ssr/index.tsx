@@ -1,16 +1,18 @@
 import { component$, useComputed$ } from '@builder.io/qwik';
 import { Link, type DocumentHead, routeLoader$, useLocation } from '@builder.io/qwik-city';
-import type { BasicInfo, IPokemonListResponse } from '~/data/interfaces/PokemonList';
+import { PokemonImage } from '~/components/pokemons/pokemon-image';
+import { ISmallPokemon } from '~/data/interfaces/SmallPokemon';
+import { getSmallPokemons } from '~/helpers/getSmallPokemons';
 
 // Petición del lado del servidor
-export const usePokemonList = routeLoader$<BasicInfo[]>(async({ query, redirect, pathname }) => {
+export const usePokemonList = routeLoader$<ISmallPokemon[]>(async({ query, redirect, pathname }) => {
 
   const offset = Number( query.get('offset') || '0' );
   if( offset < 0 || isNaN(offset) ) redirect(301, pathname);
 
-  const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${offset}`);
-  const data = await resp.json() as IPokemonListResponse;
-  return data.results;
+  const pokemons = await getSmallPokemons(offset);
+  console.log(pokemons);
+  return pokemons;
 
 })
 
@@ -49,6 +51,7 @@ export default component$(() => {
         {
           pokemons.value.map((pokemon) => (
             <div key={ pokemon.name } class="m-5 flex flex-col justify-center items-center">
+              <PokemonImage id={ pokemon.id }/>
               <span class="capitalize">{ pokemon.name }</span>
             </div>
           ))
