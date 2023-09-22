@@ -1,6 +1,7 @@
 import { component$, useComputed$ } from '@builder.io/qwik';
 import { Link, type DocumentHead, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
+import { Modal } from '~/components/shared';
 import { ISmallPokemon } from '~/data/interfaces/SmallPokemon';
 import { getSmallPokemons } from '~/helpers/getSmallPokemons';
 
@@ -57,6 +58,15 @@ export default component$(() => {
           ))
         }
       </div>
+
+      {/* Slots */}
+      <Modal>
+        <div q:slot='title'>Nombre del pokemon</div>
+        <div q:slot='content' class="flex flex-col justify-center items-center">
+          <PokemonImage id={1}/>
+          <span>Preguntandole a ChatGPT</span>
+        </div>
+      </Modal>
     </>
   )
 });
