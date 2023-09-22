@@ -1,20 +1,22 @@
-import { $, component$, useContext } from '@builder.io/qwik';
+import { $, component$ } from '@builder.io/qwik';
 import { type DocumentHead } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
 import { useNavigate } from '@builder.io/qwik-city';
-import { PokemonGameContext } from '~/context';
+import { usePokemonGame } from '~/hooks';
 
 export default component$(() => {
 
   const nav = useNavigate();
 
- const pokemonGame = useContext(PokemonGameContext);
-
-  // function serialized for lazy load
-  const changePokemonById = $(( value: number ) => {
-    if( pokemonGame.pokemonId + value <= 0) return; 
-    pokemonGame.pokemonId += value;
-  });
+  const {
+    isVisible,
+    pokemonId,
+    showBackImage,
+    nextPokemon,
+    prevPokemon,
+    toggleFromBack,
+    toggleVisible
+   } = usePokemonGame();
 
   const goToPokemon = $((id: number) => {
     nav(`/pokemon/${id}/`)
@@ -23,17 +25,17 @@ export default component$(() => {
   return (
     <>
      <span class="text-2xl">Buscador simple</span>
-     <span class="text-9xl">{ pokemonGame.pokemonId }</span>
+     <span class="text-9xl">{ pokemonId.value }</span>
      
-     <div onClick$={ () => goToPokemon( pokemonGame.pokemonId ) }>
-     <PokemonImage id={ pokemonGame.pokemonId } size={200} backImage={ pokemonGame.showBackImage } isVisible={ pokemonGame.isVisible }/>
+     <div onClick$={ () => goToPokemon( pokemonId.value ) }>
+     <PokemonImage id={ pokemonId.value } size={200} backImage={ showBackImage.value } isVisible={ isVisible.value }/>
      </div>
 
      <div class="mt-2">
-        <button onClick$={ () => changePokemonById(-1) } class="btn btn-primary mr-2">Anterior</button>
-        <button onClick$={ () => changePokemonById(+1) } class="btn btn-primary mr-2">Siguiente</button>
-        <button onClick$={ () => pokemonGame.showBackImage = !pokemonGame.showBackImage } class="btn btn-primary mr-2">Voltear</button>
-        <button onClick$={ () => pokemonGame.isVisible = !pokemonGame.isVisible } class="btn btn-primary">Revelar</button>
+        <button onClick$={ prevPokemon } class="btn btn-primary mr-2">Anterior</button>
+        <button onClick$={ nextPokemon } class="btn btn-primary mr-2">Siguiente</button>
+        <button onClick$={ toggleFromBack } class="btn btn-primary mr-2">Voltear</button>
+        <button onClick$={ toggleVisible } class="btn btn-primary">Revelar</button>
      </div>
     </>
   );
