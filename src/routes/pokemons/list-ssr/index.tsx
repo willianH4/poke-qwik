@@ -76,10 +76,10 @@ export default component$(() => {
       </div>
 
       {/* Slots */}
-      <Modal showModal={ modalVisible.value } closeFn={ closeModal } persistent size = 'lg'>
+      <Modal showModal={ modalVisible.value } closeFn={ closeModal } persistent size = 'sm'>
         <div q:slot='title'>{ modalPokemon.name }</div>
         <div q:slot='content' class="flex flex-col justify-center items-center">
-          <PokemonImage id={ modalPokemon.id }/>
+          <PokemonImage size={250} id={ modalPokemon.id }/>
           <span>Preguntandole a ChatGPT</span>
         </div>
       </Modal>
